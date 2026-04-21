@@ -19,7 +19,7 @@ export const AppProvider = ({ children }) => {
         const data = await getData(token);
         dispatch({ type: "SET_WORKOUTS", payload: data });
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error:", error);
       }
     };
     fetchData();
