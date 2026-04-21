@@ -16,8 +16,8 @@ const tracker = {
 
   stats() {
     const total = this.workouts.reduce((sum, w) => sum + w.mins, 0);
-    console.log(`Total: ${total} mins`);
-    console.log(`Sessions: ${this.workouts.length}`);
+    document.getElementById('total-mins').textContent = total;
+    document.getElementById('sessions').textContent = workouts.length;
   }
 };
 
