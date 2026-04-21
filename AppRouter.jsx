@@ -8,12 +8,11 @@ import WorkoutDetail from "../pages/WorkoutDetail";
 const AppRouter = () => {
   return (
     <BrowserRouter>
-      <nav style={styles.nav}>
-        <Link to="/" style={styles.link}>🏠 Home</Link>
-        <Link to="/favorites" style={styles.link}>⭐ Favorites</Link>
-        <Link to="/stats" style={styles.link}>📊 Stats</Link>
+      <nav style={{ backgroundColor: "#28a745", padding: "10px 20px", display: "flex", gap: "20px" }}>
+        <Link to="/" style={{ color: "white", textDecoration: "none" }}>🏠 Home</Link>
+        <Link to="/favorites" style={{ color: "white", textDecoration: "none" }}>⭐ Favorites</Link>
+        <Link to="/stats" style={{ color: "white", textDecoration: "none" }}>📊 Stats</Link>
       </nav>
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/favorites" element={<Favorites />} />
@@ -22,20 +21,6 @@ const AppRouter = () => {
       </Routes>
     </BrowserRouter>
   );
-};
-
-const styles = {
-  nav: {
-    backgroundColor: "#28a745",
-    padding: "10px 20px",
-    display: "flex",
-    gap: "20px",
-  },
-  link: {
-    color: "white",
-    textDecoration: "none",
-    fontSize: "16px",
-  },
 };
 
 export default AppRouter;
