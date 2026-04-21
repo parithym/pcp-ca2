@@ -1,37 +1,33 @@
 const AppReducer = (state, action) => {
   switch (action.type) {
 
-    case "SET_Tracker":
-      return { ...state, : action.payload };
+    case "SET_WORKOUTS":
+      return { ...state, workouts: action.payload };
 
-    case "ADD_ACTIVITIES":
-      return { ...state, movies: [...state.movies, action.payload] };
+    case "ADD_WORKOUT":
+      return { ...state, workouts: [...state.workouts, action.payload] };
 
-
-    case "DELETE_VALUES":
+    case "DELETE_WORKOUT":
       return {
         ...state,
-        movies: state.movies.filter((m) => m.id !== action.payload),
+        workouts: state.workouts.filter((w) => w.id !== action.payload),
       };
 
-
-    case "TOGGLE_ACTIVITIES":
+    case "TOGGLE_COMPLETED":
       return {
         ...state,
-        movies: state.movies.map((m) =>
-          m.id === action.payload ? { ...m, watched: !m.watched } : m
+        workouts: state.workouts.map((w) =>
+          w.id === action.payload ? { ...w, completed: !w.completed } : w
         ),
       };
 
-
-    case "ADD_ACHIVED":
+    case "ADD_FAVORITE":
       return { ...state, favorites: [...state.favorites, action.payload] };
 
-
-    case "REMOVE_ACHIVED":
+    case "REMOVE_FAVORITE":
       return {
         ...state,
-        favorites: state.favorites.filter((m) => m.id !== action.payload),
+        favorites: state.favorites.filter((w) => w.id !== action.payload),
       };
 
     default:
@@ -40,4 +36,3 @@ const AppReducer = (state, action) => {
 };
 
 export default AppReducer;
-
