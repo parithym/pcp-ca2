@@ -6,102 +6,43 @@
   <title>Fitness Tracker</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: sans-serif;
-      background: #f4f4f4;
-      color: #111;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      padding: 2rem 1rem;
-    }
-
-    .container { width: 100%; max-width: 480px; }
-
-    h1 { font-size: 22px; font-weight: 600; margin-bottom: 1.5rem; }
-
-    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
-
-    .stat-card { background: #fff; border-radius: 10px; padding: 1rem; text-align: center; border: 1px solid #e0e0e0; }
-    .stat-label { font-size: 13px; color: #666; margin-bottom: 4px; }
-    .stat-value { font-size: 28px; font-weight: 600; }
-
-    .workout-list { background: #fff; border-radius: 10px; border: 1px solid #e0e0e0; margin-bottom: 1.5rem; overflow: hidden; }
-    .workout-list-title { font-size: 14px; font-weight: 500; color: #444; padding: 12px 16px; border-bottom: 1px solid #e0e0e0; }
-    .workout-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid #f0f0f0; }
-    .workout-row:last-child { border-bottom: none; }
-    .workout-name { font-size: 15px; }
-    .badge { background: #e8f0fe; color: #1a56db; font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: 500; }
-    .empty { font-size: 14px; color: #999; text-align: center; padding: 1.5rem; }
-
-    .add-form { background: #fff; border-radius: 10px; border: 1px solid #e0e0e0; padding: 1rem; }
-    .add-form h2 { font-size: 14px; font-weight: 500; color: #444; margin-bottom: 12px; }
-
-    input { width: 100%; padding: 10px 12px; font-size: 14px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 8px; outline: none; background: #fafafa; }
-    input:focus { border-color: #1a56db; background: #fff; }
-
-    button { width: 100%; padding: 10px; background: #1a56db; color: #fff; font-size: 15px; font-weight: 500; border: none; border-radius: 8px; cursor: pointer; margin-top: 4px; }
-    button:hover { background: #1447c0; }
+    body { font-family: sans-serif; padding: 2rem; }
+    .box { border: 1px solid #ccc; padding: 1rem; max-width: 300px; }
+    p { font-size: 14px; margin-bottom: 6px; color: #333; }
+    input { font-size: 14px; border: 1px solid #ccc; padding: 4px 6px; margin-right: 6px; width: 120px; }
+    input[type=number] { width: 60px; }
+    button { font-size: 14px; padding: 4px 10px; cursor: pointer; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Fitness Tracker</h1>
-
-    <div class="stats">
-      <div class="stat-card">
-        <div class="stat-label">Total minutes</div>
-        <div class="stat-value" id="total-mins">0</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Sessions</div>
-        <div class="stat-value" id="sessions">0</div>
-      </div>
-    </div>
-
-    <div class="workout-list">
-      <div class="workout-list-title">Workouts</div>
-      <div id="workout-list"></div>
-    </div>
-
-    <div class="add-form">
-      <h2>Add workout</h2>
-      <input type="text" id="name-input" placeholder="Workout name (e.g. Running)" />
-      <input type="number" id="mins-input" placeholder="Duration in minutes" min="1" />
-      <button onclick="addWorkout()">Add workout</button>
-    </div>
+  <div class="box">
+    <div id="list"></div>
+    <p id="total" style="margin-top:8px; color:#666;"></p>
+    <hr style="margin:8px 0; border:none; border-top:1px solid #eee;">
+    <input id="n" placeholder="name" />
+    <input id="m" type="number" placeholder="mins" />
+    <button onclick="add()">add</button>
   </div>
 
   <script>
-    const workouts = [
-      { name: "Running", mins: 30 },
-      { name: "Cycling", mins: 45 }
-    ];
+    const ws = [{name:"Running",mins:30},{name:"Cycling",mins:45}];
 
     function render() {
-      const list = document.getElementById('workout-list');
-      if (workouts.length === 0) {
-        list.innerHTML = '<div class="empty">No workouts yet. Add one below!</div>';
-      } else {
-        list.innerHTML = workouts.map(w => `
-          <div class="workout-row">
-            <span class="workout-name">${w.name}</span>
-            <span class="badge">${w.mins} mins</span>
-          </div>
-        `).join('');
-      }
-      const total = workouts.reduce((sum, w) => sum + w.mins, 0);
-      document.getElementById('total-mins').textContent = total;
-      document.getElementById('sessions').textContent = workouts.length;
+      document.getElementById('list').innerHTML = ws.map(w=>`<p>${w.name} — ${w.mins} mins</p>`).join('');
+      document.getElementById('total').textContent = `${ws.length} sessions, ${ws.reduce((s,w)=>s+w.mins,0)} mins total`;
     }
 
-    function addWorkout() {
-      const name = document.getElementById('name-input').value.trim();
-      const mins = parseInt(document.getElementById('mins-input').value);
-      if (!name || !mins || mins < 1) {
-        alert('Please enter a workout name and valid duration.');
-        return;
-      }
-      workouts.push({ name, mins });
-      document.getElementById('name-input').value
+    function add() {
+      const n = document.getElementById('n').value.trim();
+      const m = parseInt(document.getElementById('m').value);
+      if (!n || !m) return;
+      ws.push({name:n, mins:m});
+      document.getElementById('n').value = '';
+      document.getElementById('m').value = '';
+      render();
+    }
+
+    render();
+  </script>
+</body>
+</html>
